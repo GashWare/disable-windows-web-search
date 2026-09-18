@@ -1,0 +1,43 @@
+Windows Registry Editor Version 5.00
+
+; Restore Start Menu Web (Bing) and Store Suggestions in Windows 10 & 11
+
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer]
+"DisableSearchBoxSuggestions"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer]
+"DisableSearchBoxSuggestions"=-
+
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Windows Search]
+"DisableWebSearch"=-
+"ConnectedSearchUseWeb"=-
+"AllowCloudSearch"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search]
+"DisableWebSearch"=-
+"ConnectedSearchUseWeb"=-
+"ConnectedSearchUseWebOverMeteredConnections"=-
+"AllowCloudSearch"=-
+"AllowCortana"=-
+"AllowSearchToUseLocation"=-
+
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\CloudContent]
+"DisableWindowsConsumerFeatures"=-
+"DisableTailoredExperiencesWithDiagnosticData"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent]
+"DisableWindowsConsumerFeatures"=-
+"DisableSoftLanding"=-
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search]
+"BingSearchEnabled"=dword:00000001
+"CortanaConsent"=dword:00000001
+"AllowSearchToUseLocation"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\SearchSettings]
+"IsBingSearchEnabled"=dword:00000001
+"IsSearchHighlightsEnabled"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"ContentDeliveryAllowed"=dword:00000001
+"SystemPaneSuggestionsEnabled"=dword:00000001
