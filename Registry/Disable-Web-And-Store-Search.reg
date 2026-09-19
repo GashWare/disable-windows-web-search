@@ -12,6 +12,8 @@ Windows Registry Editor Version 5.00
 "DisableWebSearch"=dword:00000001
 "ConnectedSearchUseWeb"=dword:00000000
 "AllowCloudSearch"=dword:00000000
+"ConnectedSearchPrivacy"=dword:00000003
+"EnableDynamicContentInWSB"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search]
 "DisableWebSearch"=dword:00000001
@@ -20,23 +22,41 @@ Windows Registry Editor Version 5.00
 "AllowCloudSearch"=dword:00000000
 "AllowCortana"=dword:00000000
 "AllowSearchToUseLocation"=dword:00000000
+"ConnectedSearchPrivacy"=dword:00000003
+"EnableDynamicContentInWSB"=dword:00000000
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search]
+"StoreSuggestionsEnabled"=dword:00000000
 "BingSearchEnabled"=dword:00000000
 "CortanaConsent"=dword:00000000
 "AllowSearchToUseLocation"=dword:00000000
+"DeviceHistoryEnabled"=dword:00000000
+"HistoryViewEnabled"=dword:00000000
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\SearchSettings]
+"IsStoreSuggestionsEnabled"=dword:00000000
 "IsBingSearchEnabled"=dword:00000000
 "IsSearchHighlightsEnabled"=dword:00000000
+"IsDynamicSearchBoxEnabled"=dword:00000000
+"IsMSACloudSearchEnabled"=dword:00000000
+"IsAADCloudSearchEnabled"=dword:00000000
+"IsDeviceSearchHistoryEnabled"=dword:00000000
+"IsSearchBoxHoverEnabled"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent]
 "DisableWindowsConsumerFeatures"=dword:00000001
 "DisableSoftLanding"=dword:00000001
+"DisableThirdPartySuggestions"=dword:00000001
+"DisableCloudOptimizedContent"=dword:00000001
+"DisableConsumerAccountStateContent"=dword:00000001
 
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\CloudContent]
 "DisableWindowsConsumerFeatures"=dword:00000001
 "DisableTailoredExperiencesWithDiagnosticData"=dword:00000001
+"DisableThirdPartySuggestions"=dword:00000001
+"DisableCloudOptimizedContent"=dword:00000001
+"DisableConsumerAccountStateContent"=dword:00000001
+"DisableSoftLanding"=dword:00000001
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
 "ContentDeliveryAllowed"=dword:00000000
@@ -51,3 +71,9 @@ Windows Registry Editor Version 5.00
 "SubscribedContent-353696Enabled"=dword:00000000
 "SubscribedContent-353698Enabled"=dword:00000000
 "SystemPaneSuggestionsEnabled"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Start_IrisRecommendations"=dword:00000000
+"ShowRecommendations"=dword:00000000
+"Start_Recommendations"=dword:00000000
+"Start_AccountNotifications"=dword:00000000
