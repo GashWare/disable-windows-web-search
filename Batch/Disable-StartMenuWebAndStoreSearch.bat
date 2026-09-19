@@ -13,6 +13,10 @@ if %errorlevel% neq 0 (
 echo ============================================================
 echo  Disabling Start Menu Web (Bing) and Store Search
 echo ============================================================
+echo.
+
+set /p "DISABLE_STORE_APP=Do you also want to completely disable the Microsoft Store application? (Y/N) [Default: N]: "
+echo.
 
 :: 1. Search Settings & Store Suggestions
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v "IsStoreSuggestionsEnabled" /t REG_DWORD /d 0 /f >nul
@@ -85,6 +89,14 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "S
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowRecommendations" /t REG_DWORD /d 0 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_Recommendations" /t REG_DWORD /d 0 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_AccountNotifications" /t REG_DWORD /d 0 /f >nul
+
+:: 8. Optional Complete Microsoft Store App Removal Policy
+if /i "%DISABLE_STORE_APP%"=="Y" (
+    echo Disabling Microsoft Store application...
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d 1 /f >nul
+    reg add "HKCU\Software\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d 1 /f >nul
+    echo Microsoft Store application disabled.
+)
 
 echo Registry changes applied successfully.
 echo.

@@ -20,8 +20,16 @@ $regRemovals = @(
     @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\Windows Search"; Name = "DisableWebSearch" },
     @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\Windows Search"; Name = "ConnectedSearchUseWeb" },
     @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\Windows Search"; Name = "AllowCloudSearch" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\Windows Search"; Name = "ConnectedSearchPrivacy" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\Windows Search"; Name = "EnableDynamicContentInWSB" },
     @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableWindowsConsumerFeatures" },
     @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableTailoredExperiencesWithDiagnosticData" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableThirdPartySuggestions" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableCloudOptimizedContent" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableConsumerAccountStateContent" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableSoftLanding" },
+    @{ Path = "HKCU:\Software\Policies\Microsoft\WindowsStore"; Name = "RemoveWindowsStore" },
+
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"; Name = "DisableSearchBoxSuggestions" },
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "DisableWebSearch" },
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "ConnectedSearchUseWeb" },
@@ -29,8 +37,14 @@ $regRemovals = @(
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "AllowCloudSearch" },
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "AllowCortana" },
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "AllowSearchToUseLocation" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "ConnectedSearchPrivacy" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"; Name = "EnableDynamicContentInWSB" },
     @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableWindowsConsumerFeatures" },
-    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableSoftLanding" }
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableSoftLanding" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableThirdPartySuggestions" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableCloudOptimizedContent" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"; Name = "DisableConsumerAccountStateContent" },
+    @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"; Name = "RemoveWindowsStore" }
 )
 
 foreach ($item in $regRemovals) {
@@ -44,8 +58,10 @@ $regDefaults = @(
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BingSearchEnabled"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "CortanaConsent"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "AllowSearchToUseLocation"; Value = 1; Type = "DWord" },
+    @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "StoreSuggestionsEnabled"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\SearchSettings"; Name = "IsBingSearchEnabled"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\SearchSettings"; Name = "IsSearchHighlightsEnabled"; Value = 1; Type = "DWord" },
+    @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\SearchSettings"; Name = "IsStoreSuggestionsEnabled"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "ContentDeliveryAllowed"; Value = 1; Type = "DWord" },
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SystemPaneSuggestionsEnabled"; Value = 1; Type = "DWord" }
 )
@@ -66,4 +82,4 @@ Write-Host "`n[*] Restarting Windows Search & Explorer processes..." -Foreground
 Get-Process -Name "SearchHost", "StartMenuExperienceHost", "SearchApp" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "explorer" -Force -ErrorAction SilentlyContinue
 
-Write-Host "`n[✓] Defaults restored. Start Menu web search has been re-enabled." -ForegroundColor Green
+Write-Host "`n[✓] Defaults restored. Start Menu web search and Store access have been re-enabled." -ForegroundColor Green

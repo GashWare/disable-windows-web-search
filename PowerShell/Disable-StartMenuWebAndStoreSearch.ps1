@@ -3,19 +3,37 @@
     Disables Internet (Bing) and Microsoft Store search suggestions in Windows Start Menu and Taskbar Search.
 .DESCRIPTION
     Configures comprehensive registry policies (both User and Machine level) to restrict Windows Search
-    strictly to local files, apps, and settings.
+    strictly to local files, apps, and settings. Optionally allows completely disabling the Microsoft Store app.
+.PARAMETER DisableStore
+    Optional switch to completely disable the Microsoft Store application without prompting.
 #>
+[CmdletBinding()]
+param(
+    [switch]$DisableStore
+)
 
 # Ensure running with Administrator privileges for Machine (HKLM) policies
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "[*] Requesting Administrator privileges to apply system-wide policies..." -ForegroundColor Yellow
-    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    $argsList = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    if ($DisableStore) { $argsList += " -DisableStore" }
+    Start-Process powershell.exe -ArgumentList $argsList -Verb RunAs
     exit
 }
 
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host " Disabling Start Menu Web (Bing) & Microsoft Store Search" -ForegroundColor Cyan
 Write-Host "============================================================" -ForegroundColor Cyan
+
+# Prompt user for optional complete Microsoft Store disabling if parameter not provided
+$promptDisableStore = $DisableStore
+if (-not $DisableStore) {
+    Write-Host ""
+    $storeInput = Read-Host "Do you also want to completely disable the Microsoft Store application? (Y/N) [Default: N]"
+    if ($storeInput -match "^[yY]") {
+        $promptDisableStore = $true
+    }
+}
 
 $regSettings = @(
     # --- Search Settings & Store Suggestions ---
@@ -91,6 +109,14 @@ $regSettings = @(
     @{ Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "Start_AccountNotifications"; Value = 0; Type = "DWord" }
 )
 
+# Add Microsoft Store removal policy if requested
+if ($promptDisableStore) {
+    $regSettings += @(
+        @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"; Name = "RemoveWindowsStore"; Value = 1; Type = "DWord" },
+        @{ Path = "HKCU:\Software\Policies\Microsoft\WindowsStore"; Name = "RemoveWindowsStore"; Value = 1; Type = "DWord" }
+    )
+}
+
 foreach ($item in $regSettings) {
     try {
         if (-not (Test-Path $item.Path)) {
@@ -101,6 +127,10 @@ foreach ($item in $regSettings) {
     } catch {
         Write-Host " [!] Failed to set $($item.Path)\$($item.Name): $_" -ForegroundColor Red
     }
+}
+
+if ($promptDisableStore) {
+    Write-Host " [✓] Microsoft Store application has been completely disabled via policy." -ForegroundColor Magenta
 }
 
 Write-Host "`n[*] Restarting Windows Search & Explorer processes to apply changes..." -ForegroundColor Yellow

@@ -9,11 +9,12 @@ Restores Windows Search to its fast, focused, and private original purpose: **se
 ## Features
 
 - 🚫 **Disables Bing Web Search:** Removes internet search results, web previews, and Bing suggestions from the Start Menu.
-- 🚫 **Disables Microsoft Store Promotions:** Prevents promoted apps, store suggestions, and suggested downloads in Search and Start.
+- 🚫 **Disables Microsoft Store Suggestions:** Prevents promoted apps, store suggestions, and suggested downloads in Search and Start.
+- 🚫 **Optional: Disable Microsoft Store Application Entirely:** Provides a prompt to completely turn off and block the Microsoft Store app.
 - 🚫 **Disables Search Highlights & Cloud Search:** Turns off daily Bing trending content, cloud content delivery, and search highlights.
 - ⚡ **Faster Search Performance:** Eliminates network latency during search queries.
 - 🔒 **Enhanced Privacy:** Stops keystrokes and search queries from being sent to Microsoft Bing servers.
-- 🔄 **Reversible:** Includes 1-click restore scripts to re-enable default Windows web search features anytime.
+- 🔄 **Reversible:** Includes 1-click restore scripts to re-enable default Windows web search and Store access anytime.
 
 ---
 
@@ -32,14 +33,16 @@ Organized cleanly by script type:
 ```
 disable-windows-web-search/
 ├── Batch/
-│   ├── Disable-StartMenuWebAndStoreSearch.bat   # 1-click Batch script to disable web/store search
+│   ├── Disable-StartMenuWebAndStoreSearch.bat   # 1-click Batch script (prompts for optional Store app disable)
 │   └── Enable-StartMenuWebAndStoreSearch.bat    # 1-click Batch script to revert to defaults
 ├── PowerShell/
-│   ├── Disable-StartMenuWebAndStoreSearch.ps1   # PowerShell script with detailed output
+│   ├── Disable-StartMenuWebAndStoreSearch.ps1   # PowerShell script (interactive prompt or -DisableStore switch)
 │   └── Enable-StartMenuWebAndStoreSearch.ps1    # PowerShell script to revert to defaults
 ├── Registry/
-│   ├── Disable-Web-And-Store-Search.reg         # Standalone .reg file to apply tweaks
-│   └── Enable-Web-And-Store-Search.reg          # Standalone .reg file to restore tweaks
+│   ├── Disable-Web-And-Store-Search.reg         # Standalone .reg file for Web & Store search suggestions
+│   ├── Disable-Microsoft-Store-App.reg          # Standalone .reg file to completely disable Store app
+│   ├── Enable-Web-And-Store-Search.reg          # Standalone .reg file to restore search defaults
+│   └── Enable-Microsoft-Store-App.reg           # Standalone .reg file to restore Store app access
 ├── LICENSE                                      # MIT License
 └── README.md                                    # Documentation
 ```
@@ -49,21 +52,26 @@ disable-windows-web-search/
 ## How to Use
 
 ### Option 1: Batch Script (Recommended for Quick Execution)
-1. Navigate to the `Batch/` folder.
+1. Navigate to the `Batch/` folder or your Desktop.
 2. Right-click [`Disable-StartMenuWebAndStoreSearch.bat`](./Batch/Disable-StartMenuWebAndStoreSearch.bat) and select **Run as Administrator** (or double-click; it will automatically request elevation).
-3. The script will apply the registry policies and restart the search background processes automatically.
+3. Follow the prompt on whether to also completely disable the Microsoft Store app.
+4. The script will apply the registry policies and restart the search background processes automatically.
 
 ### Option 2: PowerShell Script
 1. Open PowerShell as Administrator.
-2. Run:
+2. Run interactively (will prompt for Store disabling):
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
    .\PowerShell\Disable-StartMenuWebAndStoreSearch.ps1
    ```
+   Or run silently with Store disabled:
+   ```powershell
+   .\PowerShell\Disable-StartMenuWebAndStoreSearch.ps1 -DisableStore
+   ```
 
-### Option 3: Registry File (.reg)
-1. Double-click [`Registry/Disable-Web-And-Store-Search.reg`](./Registry/Disable-Web-And-Store-Search.reg).
-2. Click **Yes** when prompted by UAC and the Registry Editor.
+### Option 3: Registry Files (.reg)
+1. Double-click [`Registry/Disable-Web-And-Store-Search.reg`](./Registry/Disable-Web-And-Store-Search.reg) to disable search suggestions.
+2. (Optional) Double-click [`Registry/Disable-Microsoft-Store-App.reg`](./Registry/Disable-Microsoft-Store-App.reg) to completely block the Store app.
 3. Restart Windows Explorer or sign out and sign back in.
 
 ---
@@ -79,20 +87,21 @@ The scripts configure official Windows Group Policy and Explorer registry keys:
 | `HKCU\Software\Policies\Microsoft\Windows\Windows Search\ConnectedSearchUseWeb` | `0` | Disables connected web search services |
 | `HKCU\Software\Policies\Microsoft\Windows\Windows Search\AllowCloudSearch` | `0` | Disables Microsoft account / work cloud search |
 | `HKCU\Software\Microsoft\Windows\CurrentVersion\Search\BingSearchEnabled` | `0` | Turns off Bing integration in Windows Search |
-| `HKCU\Software\Microsoft\Windows\CurrentVersion\Search\CortanaConsent` | `0` | Disables Cortana web consent |
+| `HKCU\Software\Microsoft\Windows\CurrentVersion\Search\StoreSuggestionsEnabled` | `0` | Disables Store suggestion integrations |
+| `HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings\IsStoreSuggestionsEnabled` | `0` | Disables Store search suggestions in Windows 11 |
 | `HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings\IsBingSearchEnabled` | `0` | Disables Bing search in newer Windows 11 settings |
 | `HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings\IsSearchHighlightsEnabled` | `0` | Removes daily trending images/content in Search |
 | `HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent\DisableWindowsConsumerFeatures` | `1` | Disables consumer promotions & Store app recommendations |
-| `HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\...` | `0` | Disables subscription & recommendation panes |
+| `HKLM\SOFTWARE\Policies\Microsoft\WindowsStore\RemoveWindowsStore` (Optional) | `1` | Completely disables the Microsoft Store app |
 
 ---
 
 ## How to Revert (Restore Defaults)
 
-If you ever want to restore default Windows web search and Store suggestions:
+If you ever want to restore default Windows web search and Store access:
 - Run [`Batch/Enable-StartMenuWebAndStoreSearch.bat`](./Batch/Enable-StartMenuWebAndStoreSearch.bat) as Administrator, or
 - Run [`PowerShell/Enable-StartMenuWebAndStoreSearch.ps1`](./PowerShell/Enable-StartMenuWebAndStoreSearch.ps1), or
-- Merge [`Registry/Enable-Web-And-Store-Search.reg`](./Registry/Enable-Web-And-Store-Search.reg).
+- Merge [`Registry/Enable-Web-And-Store-Search.reg`](./Registry/Enable-Web-And-Store-Search.reg) and [`Registry/Enable-Microsoft-Store-App.reg`](./Registry/Enable-Microsoft-Store-App.reg).
 
 ---
 

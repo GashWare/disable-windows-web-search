@@ -19,8 +19,15 @@ reg delete "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearch
 reg delete "HKCU\Software\Policies\Microsoft\Windows\Windows Search" /v "DisableWebSearch" /f >nul 2>&1
 reg delete "HKCU\Software\Policies\Microsoft\Windows\Windows Search" /v "ConnectedSearchUseWeb" /f >nul 2>&1
 reg delete "HKCU\Software\Policies\Microsoft\Windows\Windows Search" /v "AllowCloudSearch" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\Windows Search" /v "ConnectedSearchPrivacy" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\Windows Search" /v "EnableDynamicContentInWSB" /f >nul 2>&1
 reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /f >nul 2>&1
 reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableTailoredExperiencesWithDiagnosticData" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableThirdPartySuggestions" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableCloudOptimizedContent" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableConsumerAccountStateContent" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /f >nul 2>&1
+reg delete "HKCU\Software\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /f >nul 2>&1
 
 :: Remove machine policies
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f >nul 2>&1
@@ -30,15 +37,23 @@ reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "Connect
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowCloudSearch" /f >nul 2>&1
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowCortana" /f >nul 2>&1
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowSearchToUseLocation" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "ConnectedSearchPrivacy" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "EnableDynamicContentInWSB" /f >nul 2>&1
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /f >nul 2>&1
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableThirdPartySuggestions" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableCloudOptimizedContent" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableConsumerAccountStateContent" /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /f >nul 2>&1
 
 :: Reset user defaults
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "BingSearchEnabled" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "CortanaConsent" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "AllowSearchToUseLocation" /t REG_DWORD /d 1 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "StoreSuggestionsEnabled" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v "IsBingSearchEnabled" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v "IsSearchHighlightsEnabled" /t REG_DWORD /d 1 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v "IsStoreSuggestionsEnabled" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "ContentDeliveryAllowed" /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SystemPaneSuggestionsEnabled" /t REG_DWORD /d 1 /f >nul
 
@@ -53,6 +68,6 @@ start explorer.exe
 
 echo.
 echo ============================================================
-echo  Done! Start Menu web search has been restored to default.
+echo  Done! Start Menu web search and Store access restored.
 echo ============================================================
 pause
